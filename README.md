@@ -1,20 +1,22 @@
-# AppAuth for iOS and macOS
+![AppAuth for iOS and macOS](https://rawgit.com/openid/AppAuth-iOS/master/appauth_lockup.svg)
+[![Build Status](https://travis-ci.org/openid/AppAuth-iOS.svg?branch=master)](https://travis-ci.org/openid/AppAuth-iOS)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
-[![Build Status](https://www.bitrise.io/app/8e4dbca635a964dc.svg?token=8rT4oJnhjUuFWH-QvXuJzg&branch=master)](https://www.bitrise.io/app/8e4dbca635a964dc)
-
-AppAuth for iOS and macOS is a client SDK for communicating with [OAuth 2.0]
-(https://tools.ietf.org/html/rfc6749) and [OpenID Connect]
-(http://openid.net/specs/openid-connect-core-1_0.html) providers. It strives to
+AppAuth for iOS and macOS is a client SDK for communicating with 
+[OAuth 2.0](https://tools.ietf.org/html/rfc6749) and 
+[OpenID Connect](http://openid.net/specs/openid-connect-core-1_0.html) providers. 
+It strives to
 directly map the requests and responses of those specifications, while following
 the idiomatic style of the implementation language. In addition to mapping the
 raw protocol flows, convenience methods are available to assist with common
 tasks like performing an action with fresh tokens.
 
-It follows the best practices set out in [OAuth 2.0 for Native Apps]
-(https://tools.ietf.org/html/draft-ietf-oauth-native-apps)
-including using `SFSafariViewController` on iOS for the auth request. For this
-reason, `UIWebView` is explicitly *not* supported due to usability and security
-reasons.
+It follows the best practices set out in 
+[RFC 8252 - OAuth 2.0 for Native Apps](https://tools.ietf.org/html/rfc8252)
+including using `SFAuthenticationSession` and `SFSafariViewController` on iOS
+for the auth request. `UIWebView` and `WKWebView` are explicitly *not*
+supported due to the security and usability reasons explained in
+[Section 8.12 of RFC 8252](https://tools.ietf.org/html/rfc8252#section-8.12).
 
 It also supports the [PKCE](https://tools.ietf.org/html/rfc7636) extension to
 OAuth which was created to secure authorization codes in public clients when
@@ -40,7 +42,7 @@ Both Custom URI Schemes (all supported versions of iOS) and Universal Links
 (iOS 9+) can be used with the library.
 
 In general, AppAuth can work with any Authorization Server (AS) that supports
-[native apps](https://tools.ietf.org/html/draft-ietf-oauth-native-apps),
+native apps as documented in [RFC 8252](https://tools.ietf.org/html/rfc8252),
 either through custom URI scheme redirects, or universal links.
 AS's that assume all clients are web-based or require clients to maintain
 confidentiality of the client secrets may not work well.
@@ -57,7 +59,7 @@ AppAuth for macOS supports both custom schemes, a loopback HTTP redirects
 via a small embedded server.
 
 In general, AppAuth can work with any Authorization Server (AS) that supports
-[native apps](https://tools.ietf.org/html/draft-ietf-oauth-native-apps),
+native apps as documented in [RFC 8252](https://tools.ietf.org/html/rfc8252),
 either through custom URI scheme, or loopback HTTP redirects.
 AS's that assume all clients are web-based or require clients to maintain
 confidentiality of the client secrets may not work well.
@@ -68,19 +70,43 @@ Want to try out AppAuth? Just run:
 
     pod try AppAuth
 
-Follow the instructions in [Example/README.md](Example/README.md) to configure
+Follow the instructions in [Examples/README.md](Examples/README.md) to configure
 with your own OAuth client (you need to update 3 configuration points with your
 client info to try the demo).
 
 ## Setup
 
-If you use [CocoaPods](https://guides.cocoapods.org/using/getting-started.html),
-simply add:
+AppAuth supports three options for dependency management.
+
+### CocoaPods
+
+With [CocoaPods](https://guides.cocoapods.org/using/getting-started.html),
+add the following line to your `Podfile`:
 
     pod 'AppAuth'
 
-To your `Podfile` and run `pod install`. Otherwise, add `AppAuth.xcodeproj`
-into your workspace.
+Then run `pod install`.
+
+### Carthage
+
+With [Carthage](https://github.com/Carthage/Carthage), add the following
+line to your `Cartfile`:
+
+    github "openid/AppAuth-iOS" "master"
+
+Then run `carthage bootstrap`.
+
+### Static Library
+
+You can also use AppAuth as a static library. This requires linking the library
+and your project and including the headers.  Suggested configuration:
+
+1. Create an XCode Workspace.
+2. Add `AppAuth.xcodeproj` to your Workspace.
+3. Include libAppAuth as a linked library for your target (in the "General ->
+Linked Framework and Libraries" section of your target).
+4. Add `AppAuth-iOS/Source` to your search paths of your target ("Build Settings ->
+"Header Search Paths").
 
 ## Auth Flow
 
